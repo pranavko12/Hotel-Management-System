@@ -1,0 +1,409 @@
+mysql> create database project;
+Query OK, 1 row affected (0.23 sec)
+
+mysql> use project;
+Database changed
+mysql> create table Hotel(Hotel_id int primary key,zipcode int,city varchar(20),state varchar(20),phone_no varchar(20));
+Query OK, 0 rows affected (1.67 sec)
+
+mysql> create table Customer(Customer_id int primary key,first_name varchar(20),last_name varchar(20),zipcode int,city varchar(20),state varchar(20),phone_no varchar(20));
+Query OK, 0 rows affected (0.42 sec)
+
+mysql> create table Rooms(Room_no int primary key,Hotel_id int,foreign key(Hotel_id) references Hotel(Hotel_id),Room_type varchar(20),Rate int,no_of_beds int);
+Query OK, 0 rows affected (1.59 sec)
+
+mysql> create table Reservation(Reservation_no int primary key,Customer_id int,foreign key(Customer_id) references Customer(Customer_id),Hotel_id int,foreign key(Hotel_id) references Hotel(Hotel_id),Room_no int,foreign key(Room_no) references Rooms(Room_no),Reservation_Date date,Check_In_Date date,Check_Out_Date date,Nof_Guests int,Status varchar(20));
+Query OK, 0 rows affected (1.14 sec)
+
+mysql> create table Services(Service_id int primary key,Service_Name varchar(20),Service_Cost int,Customer_id int,foreign key(Customer_id) references Customer(Customer_id),Reservation_no int,foreign key(Reservation_no) references Reservation(Reservation_no));
+Query OK, 0 rows affected (1.85 sec)
+
+mysql> create table Billing(Bill_no int primary key,Customer_id int,foreign key(Customer_id) references Customer(Customer_id),Reservation_no int,foreign key(Reservation_no) references Reservation(Reservation_no),Room_Charge int,Additional_Charge int,CreditCard_no varchar(20),Date_of_Payment date);
+Query OK, 0 rows affected (2.96 sec)
+
+mysql> desc Hotel;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| Hotel_id | int         | NO   | PRI | NULL    |       |
+| zipcode  | int         | YES  |     | NULL    |       |
+| city     | varchar(20) | YES  |     | NULL    |       |
+| state    | varchar(20) | YES  |     | NULL    |       |
+| phone_no | varchar(20) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+5 rows in set (0.08 sec)
+
+mysql> desc Customer;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Customer_id | int         | NO   | PRI | NULL    |       |
+| first_name  | varchar(20) | YES  |     | NULL    |       |
+| last_name   | varchar(20) | YES  |     | NULL    |       |
+| zipcode     | int         | YES  |     | NULL    |       |
+| city        | varchar(20) | YES  |     | NULL    |       |
+| state       | varchar(20) | YES  |     | NULL    |       |
+| phone_no    | varchar(20) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> desc Rooms;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| Room_no    | int         | NO   | PRI | NULL    |       |
+| Hotel_id   | int         | YES  | MUL | NULL    |       |
+| Room_type  | varchar(20) | YES  |     | NULL    |       |
+| Rate       | int         | YES  |     | NULL    |       |
+| no_of_beds | int         | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> desc Reservation;
++------------------+-------------+------+-----+---------+-------+
+| Field            | Type        | Null | Key | Default | Extra |
++------------------+-------------+------+-----+---------+-------+
+| Reservation_no   | int         | NO   | PRI | NULL    |       |
+| Customer_id      | int         | YES  | MUL | NULL    |       |
+| Hotel_id         | int         | YES  | MUL | NULL    |       |
+| Room_no          | int         | YES  | MUL | NULL    |       |
+| Reservation_Date | date        | YES  |     | NULL    |       |
+| Check_In_Date    | date        | YES  |     | NULL    |       |
+| Check_Out_Date   | date        | YES  |     | NULL    |       |
+| Nof_Guests       | int         | YES  |     | NULL    |       |
+| Status           | varchar(20) | YES  |     | NULL    |       |
++------------------+-------------+------+-----+---------+-------+
+9 rows in set (0.01 sec)
+
+mysql> desc Services;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Service_id     | int         | NO   | PRI | NULL    |       |
+| Service_Name   | varchar(20) | YES  |     | NULL    |       |
+| Service_Cost   | int         | YES  |     | NULL    |       |
+| Customer_id    | int         | YES  | MUL | NULL    |       |
+| Reservation_no | int         | YES  | MUL | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc Billing;
++-------------------+-------------+------+-----+---------+-------+
+| Field             | Type        | Null | Key | Default | Extra |
++-------------------+-------------+------+-----+---------+-------+
+| Bill_no           | int         | NO   | PRI | NULL    |       |
+| Customer_id       | int         | YES  | MUL | NULL    |       |
+| Reservation_no    | int         | YES  | MUL | NULL    |       |
+| Room_Charge       | int         | YES  |     | NULL    |       |
+| Additional_Charge | int         | YES  |     | NULL    |       |
+| CreditCard_no     | varchar(20) | YES  |     | NULL    |       |
+| Date_of_Payment   | date        | YES  |     | NULL    |       |
++-------------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> insert into Hotel values(1,1234,"Pune","Maharashtra",9261735267);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into Hotel values(2,5789,"Ahmedabad","Gujarat",9517349012);
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into Hotel values(3,9876,"Udaipur","Rajasthan",9735241832);
+Query OK, 1 row affected (0.52 sec)
+
+mysql> select * from Hotel;
++----------+---------+-----------+-------------+------------+
+| Hotel_id | zipcode | city      | state       | phone_no   |
++----------+---------+-----------+-------------+------------+
+|        1 |    1234 | Pune      | Maharashtra | 9261735267 |
+|        2 |    5789 | Ahmedabad | Gujarat     | 9517349012 |
+|        3 |    9876 | Udaipur   | Rajasthan   | 9735241832 |
++----------+---------+-----------+-------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into Customer values(1,"Pranav","Kolhe",1256,"Thane","Maharashtra",8369612873);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into Customer values(2,"Dhairya","Desai",6241,"Navsari","Gujarat",9757010125);
+Query OK, 1 row affected (0.19 sec)
+
+mysql> insert into Customer values(3,"Nikhil","Khandelwal",9957,"Jaipur","Rajasthan",9973563728);
+Query OK, 1 row affected (0.18 sec)
+
+mysql> insert into Customer values(4,"Shivang","Mishra",4021,"Indore","Madhya Pradesh",7726150689);
+Query OK, 1 row affected (0.17 sec)
+
+mysql> insert into Customer values(5,"Alay","Sanchania",5792,"Surat","Gujarat",9371888821);
+Query OK, 1 row affected (0.19 sec)
+
+mysql> insert into Customer values(6,"Kaivalya","Pulekar",1288,"Mumbai","Maharashtra",8211567899);
+Query OK, 1 row affected (0.16 sec)
+
+mysql> insert into Customer values(7,"Akul","Ahuja",9888,"Jaipur","Rajasthan",8811143098);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> insert into Customer values(8,"Devansh","Shah",1290,"Mumbai","Maharashtra",9821606231);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into Customer values(9,"Ashutosh","Dhadich",9878,"Udaipur","Rajasthan",9892516242);
+Query OK, 1 row affected (0.53 sec)
+
+mysql> select * from Customer;
++-------------+------------+------------+---------+---------+----------------+------------+
+| Customer_id | first_name | last_name  | zipcode | city    | state          | phone_no   |
++-------------+------------+------------+---------+---------+----------------+------------+
+|           1 | Pranav     | Kolhe      |    1256 | Thane   | Maharashtra    | 8369612873 |
+|           2 | Dhairya    | Desai      |    6241 | Navsari | Gujarat        | 9757010125 |
+|           3 | Nikhil     | Khandelwal |    9957 | Jaipur  | Rajasthan      | 9973563728 |
+|           4 | Shivang    | Mishra     |    4021 | Indore  | Madhya Pradesh | 7726150689 |
+|           5 | Alay       | Sanchania  |    5792 | Surat   | Gujarat        | 9371888821 |
+|           6 | Kaivalya   | Pulekar    |    1288 | Mumbai  | Maharashtra    | 8211567899 |
+|           7 | Akul       | Ahuja      |    9888 | Jaipur  | Rajasthan      | 8811143098 |
+|           8 | Devansh    | Shah       |    1290 | Mumbai  | Maharashtra    | 9821606231 |
+|           9 | Ashutosh   | Dhadich    |    9878 | Udaipur | Rajasthan      | 9892516242 |
++-------------+------------+------------+---------+---------+----------------+------------+
+9 rows in set (0.00 sec)
+
+mysql> insert into Rooms values(1101,1,"Single Bed",2000,1);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into Rooms values(1102,1,"Single Bed",2000,1);
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into Rooms values(1201,1,"Double Bed",5000,2);
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into Rooms values(1202,1,"Double Bed",5000,2);
+Query OK, 1 row affected (0.16 sec)
+
+mysql> insert into Rooms values(1301,1,"Suite",8000,4);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into Rooms values(1302,1,"Suite",8000,4);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> insert into Rooms values(2101,2,"Single Bed",2000,1);
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into Rooms values(2102,2,"Single Bed",2000,1);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> insert into Rooms values(2201,2,"Double Bed",5000,2);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into Rooms values(2202,2,"Double Bed",5000,2);
+Query OK, 1 row affected (0.20 sec)
+
+mysql> insert into Rooms values(2301,1,"Suite",8000,4);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into Rooms values(2302,1,"Suite",8000,4);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> update Rooms set Hotel_id = 2 where Room_no = 2301;
+Query OK, 1 row affected (0.22 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Rooms set Hotel_id = 2 where Room_no = 2302;
+Query OK, 1 row affected (0.15 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> insert into Rooms values(3101,3,"Single Bed",2000,1);
+Query OK, 1 row affected (0.51 sec)
+
+mysql> insert into Rooms values(3102,3,"Single Bed",2000,1);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into Rooms values(3201,3,"Double Bed",5000,2);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> insert into Rooms values(3202,3,"Double Bed",5000,2);
+Query OK, 1 row affected (0.26 sec)
+
+mysql> insert into Rooms values(3301,3,"Suite",8000,4);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> insert into Rooms values(3302,3,"Suite",8000,4);
+Query OK, 1 row affected (0.31 sec)
+
+mysql> select * from Rooms;
++---------+----------+------------+------+------------+
+| Room_no | Hotel_id | Room_type  | Rate | no_of_beds |
++---------+----------+------------+------+------------+
+|    1101 |        1 | Single Bed | 2000 |          1 |
+|    1102 |        1 | Single Bed | 2000 |          1 |
+|    1201 |        1 | Double Bed | 5000 |          2 |
+|    1202 |        1 | Double Bed | 5000 |          2 |
+|    1301 |        1 | Suite      | 8000 |          4 |
+|    1302 |        1 | Suite      | 8000 |          4 |
+|    2101 |        2 | Single Bed | 2000 |          1 |
+|    2102 |        2 | Single Bed | 2000 |          1 |
+|    2201 |        2 | Double Bed | 5000 |          2 |
+|    2202 |        2 | Double Bed | 5000 |          2 |
+|    2301 |        2 | Suite      | 8000 |          4 |
+|    2302 |        2 | Suite      | 8000 |          4 |
+|    3101 |        3 | Single Bed | 2000 |          1 |
+|    3102 |        3 | Single Bed | 2000 |          1 |
+|    3201 |        3 | Double Bed | 5000 |          2 |
+|    3202 |        3 | Double Bed | 5000 |          2 |
+|    3301 |        3 | Suite      | 8000 |          4 |
+|    3302 |        3 | Suite      | 8000 |          4 |
++---------+----------+------------+------+------------+
+18 rows in set (0.00 sec)
+
+mysql> insert into Reservation values(1,1,1,1101,"2021-04-04","2021-04-06","2021-04-10",2,"Occupied");
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into Reservation values(2,1,2,2101,"2021-04-04","2021-05-06","2021-05-10",2,"Vacant");
+Query OK, 1 row affected (0.54 sec)
+
+mysql> insert into Reservation values(3,1,3,3101,"2021-04-04","2021-06-06","2021-06-10",2,"Vacant");
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into Reservation values(4,2,2,2201,"2021-04-12","2021-04-18","2021-04-20",2,"Vacant");
+Query OK, 1 row affected (0.13 sec)
+
+mysql> insert into Reservation values(5,3,2,2301,"2021-04-04","2021-04-06","2021-04-10",2,"Occupied");
+Query OK, 1 row affected (0.22 sec)
+
+mysql> insert into Reservation values(6,6,1,1301,"2021-04-03","2021-04-07","2021-04-11",4,"Occupied");
+Query OK, 1 row affected (0.72 sec)
+
+mysql> insert into Reservation values(7,7,3,3302,"2021-04-07","2021-05-07","2021-05-11",4,"Vacant");
+Query OK, 1 row affected (0.21 sec)
+
+mysql> insert into Reservation values(8,8,2,2102,"2021-04-07","2021-04-09","2021-04-12",1,"Occupied");
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into Reservation values(9,9,3,3202,"2021-04-07","2021-04-09","2021-04-12",3,"Occupied");
+Query OK, 1 row affected (0.33 sec)
+
+mysql> insert into Reservation values(10,9,3,3202,"2021-04-07","2021-04-015","2021-04-20",3,"Vacant");
+Query OK, 1 row affected (0.08 sec)
+
+mysql> select * from Reservation;
++----------------+-------------+----------+---------+------------------+---------------+----------------+------------+----------+
+| Reservation_no | Customer_id | Hotel_id | Room_no | Reservation_Date | Check_In_Date | Check_Out_Date | Nof_Guests | Status   |
++----------------+-------------+----------+---------+------------------+---------------+----------------+------------+----------+
+|              1 |           1 |        1 |    1101 | 2021-04-04       | 2021-04-06    | 2021-04-10     |          2 | Occupied |
+|              2 |           1 |        2 |    2101 | 2021-04-04       | 2021-05-06    | 2021-05-10     |          2 | Vacant   |
+|              3 |           1 |        3 |    3101 | 2021-04-04       | 2021-06-06    | 2021-06-10     |          2 | Vacant   |
+|              4 |           2 |        2 |    2201 | 2021-04-12       | 2021-04-18    | 2021-04-20     |          2 | Vacant   |
+|              5 |           3 |        2 |    2301 | 2021-04-04       | 2021-04-06    | 2021-04-10     |          2 | Occupied |
+|              6 |           6 |        1 |    1301 | 2021-04-03       | 2021-04-07    | 2021-04-11     |          4 | Occupied |
+|              7 |           7 |        3 |    3302 | 2021-04-07       | 2021-05-07    | 2021-05-11     |          4 | Vacant   |
+|              8 |           8 |        2 |    2102 | 2021-04-07       | 2021-04-09    | 2021-04-12     |          1 | Occupied |
+|              9 |           9 |        3 |    3202 | 2021-04-07       | 2021-04-09    | 2021-04-12     |          3 | Occupied |
+|             10 |           9 |        3 |    3202 | 2021-04-07       | 2021-04-15    | 2021-04-20     |          3 | Vacant   |
++----------------+-------------+----------+---------+------------------+---------------+----------------+------------+----------+
+10 rows in set (0.00 sec)
+
+mysql> insert into Services values(1,"Cleaning",2000,1,1);
+Query OK, 1 row affected (2.24 sec)
+
+mysql> insert into Services values(2,"Laundry",2000,1,1);
+Query OK, 1 row affected (0.38 sec)
+
+mysql> insert into Services values(3,"Cleaning",2000,3,5);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into Services values(4,"Laundry",2000,6,6);
+Query OK, 1 row affected (0.49 sec)
+
+mysql> insert into Services values(5,"Laundry",2000,8,8);
+Query OK, 1 row affected (0.31 sec)
+
+mysql> insert into Services values(6,"Cleaning",2000,8,8);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> select * from Services;
++------------+--------------+--------------+-------------+----------------+
+| Service_id | Service_Name | Service_Cost | Customer_id | Reservation_no |
++------------+--------------+--------------+-------------+----------------+
+|          1 | Cleaning     |         2000 |           1 |              1 |
+|          2 | Laundry      |         2000 |           1 |              1 |
+|          3 | Cleaning     |         2000 |           3 |              5 |
+|          4 | Laundry      |         2000 |           6 |              6 |
+|          5 | Laundry      |         2000 |           8 |              8 |
+|          6 | Cleaning     |         2000 |           8 |              8 |
++------------+--------------+--------------+-------------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> insert into Billing values(1,1,1,2000,2000,987256,"2021-04-10");
+Query OK, 1 row affected (0.13 sec)
+
+mysql> update Billing set Additional_Charge = 4000 where Bill_no=1;
+Query OK, 1 row affected (0.14 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> insert into Billing values(2,3,5,8000,2000,758363,"2021-04-10");
+Query OK, 1 row affected (0.15 sec)
+
+mysql> insert into Billing values(3,6,6,8000,2000,533853,"2021-04-11");
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into Billing values(4,8,8,2000,0,500123,"2021-04-12");
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into Billing values(5,9,9,5000,2000,435233,"2021-04-12");
+Query OK, 1 row affected (0.62 sec)
+
+mysql> select * from Billing;
++---------+-------------+----------------+-------------+-------------------+---------------+-----------------+
+| Bill_no | Customer_id | Reservation_no | Room_Charge | Additional_Charge | CreditCard_no | Date_of_Payment |
++---------+-------------+----------------+-------------+-------------------+---------------+-----------------+
+|       1 |           1 |              1 |        2000 |              4000 | 987256        | 2021-04-10      |
+|       2 |           3 |              5 |        8000 |              2000 | 758363        | 2021-04-10      |
+|       3 |           6 |              6 |        8000 |              2000 | 533853        | 2021-04-11      |
+|       4 |           8 |              8 |        2000 |                 0 | 500123        | 2021-04-12      |
+|       5 |           9 |              9 |        5000 |              2000 | 435233        | 2021-04-12      |
++---------+-------------+----------------+-------------+-------------------+---------------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> notee;
+mysql> use project;
+Database changed
+
+mysql> select c.first_name, c.last_name from Customer c,Billing b where c.Customer_id = b.Customer_id and Additional_Charge>2500;
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| Pranav     | Kolhe     |
++------------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select c.first_name, c.last_name from Reservation r,Customer c where c.Customer_id = r.Customer_id and r.Check_In_Date = "2021-04-09"; 
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| Devansh    | Shah      |
+| Ashutosh   | Dhadich   |
++------------+-----------+
+2 rows in set (0.44 sec)
+
+mysql> select c.first_name, c.last_name from Services s,Customer c where c.Customer_id = s.Customer_id and s.Service_Name = "Cleaning"; 
++------------+------------+
+| first_name | last_name  |
++------------+------------+
+| Pranav     | Kolhe      |
+| Nikhil     | Khandelwal |
+| Devansh    | Shah       |
++------------+------------+
+3 rows in set (0.39 sec)
+
+mysql> select COUNT(Hotel_id) from Hotel h,Reservation r where r.Hotel_id = h.Hotel_id and Hotel_id=2;
+ERROR 1052 (23000): Column 'Hotel_id' in field list is ambiguous
+mysql> select c.first_name, c.last_name from Reservation r,Customer c where c.Customer_id = r.Customer_id and r.Hotel_id = 1; 
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| Pranav     | Kolhe     |
+| Kaivalya   | Pulekar   |
++------------+-----------+
+2 rows in set (1.06 sec)
+
+mysql> commit; 
+Query OK, 0 rows affected (0.00 sec)
+
